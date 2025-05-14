@@ -44,7 +44,7 @@ public class GlobalExceptionHandler : IMiddleware
 
         context.Response.StatusCode = (int)statuscode;
 
-        var jsonResponse = JsonSerializer.Serialize(result);
+        string? jsonResponse = JsonSerializer.Serialize(result);
         return context.Response.WriteAsync(jsonResponse);
     }
 }

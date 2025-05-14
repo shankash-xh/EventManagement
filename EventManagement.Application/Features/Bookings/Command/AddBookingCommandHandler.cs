@@ -28,10 +28,10 @@ public class AddBookingCommandHandler : IRequestHandler<AddBookingRequest, Resul
         {
             return Result<BookingResponce>.Failure("Invalid Booking Data");
         }
-        var k = _mapper.Map<Booking>(booking);
+        Booking? k = _mapper.Map<Booking>(booking);
         await _unitOfWork.Bookings.AddAsync(k);
         await _unitOfWork.SaveAsync();
-        var bookingResponse = _mapper.Map<BookingResponce>(k);
+        BookingResponce? bookingResponse = _mapper.Map<BookingResponce>(k);
         return Result<BookingResponce>.Success(bookingResponse);
     }
 }

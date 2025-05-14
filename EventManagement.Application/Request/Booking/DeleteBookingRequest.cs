@@ -1,5 +1,4 @@
-﻿using EventManagement.Shared.GlobalResponce;
-using MediatR;
+﻿using MediatR;
 
 namespace EventManagement.Application.Request.Booking;
 

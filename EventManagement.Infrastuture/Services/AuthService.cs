@@ -51,19 +51,19 @@ public class AuthService(IHttpContextAccessor contextAccessor, IConfiguration co
     }
     private string CreateAccessToken(User user, IList<string> userRoles)
     {
-        List<Claim>? claims = new List<Claim>
-        {
+        List<Claim>? claims =
+        [
             new Claim(ClaimTypes.Email, user.Email),
             new Claim(ClaimTypes.NameIdentifier, user.Id),
             new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
-        };
+        ];
         foreach (string role in userRoles)
         {
             claims.Add(new Claim(ClaimTypes.Role, role));
         }
-        SymmetricSecurityKey? key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]));
-        SigningCredentials? creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        JwtSecurityToken? token = new JwtSecurityToken(
+        SymmetricSecurityKey? key = new(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]));
+        SigningCredentials? creds = new (key, SecurityAlgorithms.HmacSha256);
+        JwtSecurityToken? token = new (
             issuer: _configuration["JWT:Issuer"],
             audience: _configuration["JWT:Audience"],
             claims: claims,
@@ -92,10 +92,10 @@ public class AuthService(IHttpContextAccessor contextAccessor, IConfiguration co
     public async Task<Result<UserResponce>> RefreshTokenAsync(RefreshTokenRequest request)
     {
         ClaimsPrincipal? principal = GetPrincipalFromToken(request.Token!);
-        if (principal == null) { return null; }
+        if (principal == null) { return null!; }
         string? userEmail = principal.FindFirst(ClaimTypes.Email)?.Value;
         User? user = await _userManager.FindByEmailAsync(userEmail!);
-        if (user == null) { return null; }
+        if (user == null) { return null!; }
         if (user.RefeshToken != request.RefreshToken || user.RefeshTokenExpiryTime <= DateTime.UtcNow)
         {
             return Result<UserResponce>.Failure("Failed To Varify the token");

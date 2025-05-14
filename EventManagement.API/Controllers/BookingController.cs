@@ -19,14 +19,14 @@ namespace EventManagement.API.Controllers
         [Authorize(Roles = "Organizers,User")]
         public async Task<Result<List<BookingResponce>>> GetAllBookings([FromQuery] GetAllBookingsRequest bookingRequest)
         {
-            var result = await Mediator.Send(bookingRequest);
+            Result<List<BookingResponce>>? result = await Mediator.Send(bookingRequest);
             return result;
         }
         [HttpGet("get-booking-by-id")]
         [Authorize(Roles = "Organizers,User")]
         public async Task<Result<BookingResponce>> GetBookingById(GetBookingByIdRequest request)
         {
-            var result = await Mediator.Send(request);
+            Result<BookingResponce>? result = await Mediator.Send(request);
             return result;
         }
         [HttpPost("create-booking")]
@@ -40,7 +40,7 @@ namespace EventManagement.API.Controllers
         [Authorize(Roles = "Organizers")]
         public async Task<Result<BookingResponce>> UpdateBooking(UpdateBookingRequest bookingRequest)
         {
-            var result = await Mediator.Send(bookingRequest);
+            Result<BookingResponce>? result = await Mediator.Send(bookingRequest);
             return result;
         }
         [HttpDelete("delete-booking")]

@@ -18,7 +18,7 @@ public class GetBookingByIdHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRe
         Booking? booking = await _unitOfWork.Bookings.GetByIdAsync(request.Id);
         if (booking != null)
         {
-            var bookingResponse = _mapper.Map<BookingResponce>(booking);
+            BookingResponce? bookingResponse = _mapper.Map<BookingResponce>(booking);
             return Result<BookingResponce>.Success(bookingResponse);
         }
         return Result<BookingResponce>.Failure("Booking Not Found");

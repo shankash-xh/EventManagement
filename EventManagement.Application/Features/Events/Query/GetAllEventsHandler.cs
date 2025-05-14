@@ -85,7 +85,7 @@ public class GetAllEventsHandler : IRequestHandler<GetAllEventsRequest, Result<L
                 }
             }
             // Pagination
-            var paginatedResult = events.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            List<Event>? paginatedResult = events.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
             if (paginatedResult == null || paginatedResult.Count == 0)
             {
                 return Result<List<EventReposnce>>.Failure("No Bookings Found");

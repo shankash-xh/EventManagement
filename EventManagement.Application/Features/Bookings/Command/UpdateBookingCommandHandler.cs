@@ -24,7 +24,7 @@ public class UpdateBookingCommandHandler : IRequestHandler<UpdateBookingRequest,
         {
             return Result<BookingResponce>.Failure("Invalid Booking Data");
         }
-        var existingBooking = await _unitOfWork.Bookings.GetByIdAsync(bookingRequest.Id);
+        Booking? existingBooking = await _unitOfWork.Bookings.GetByIdAsync(bookingRequest.Id);
         if (existingBooking == null)
         {
             return Result<BookingResponce>.Failure("Booking Not Found");
@@ -32,7 +32,7 @@ public class UpdateBookingCommandHandler : IRequestHandler<UpdateBookingRequest,
         Booking booking = _mapper.Map<Booking>(bookingRequest);
         await _unitOfWork.Bookings.UpdateAsync(booking);
         await _unitOfWork.SaveAsync();
-        var bookingResponse = _mapper.Map<BookingResponce>(existingBooking);
+        BookingResponce? bookingResponse = _mapper.Map<BookingResponce>(existingBooking);
         return Result<BookingResponce>.Success(bookingResponse);
     }
 }

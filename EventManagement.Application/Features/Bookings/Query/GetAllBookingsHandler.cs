@@ -64,8 +64,8 @@ public class GetAllBookingsHandler : IRequestHandler<GetAllBookingsRequest, Resu
             // Pagination
             int totalCount = bookings.Count();
             int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-            var paginatedBookings = bookings.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-            var bookingResponses = _mapper.Map<List<BookingResponce>>(paginatedBookings);
+            List<Booking>? paginatedBookings = bookings.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            List<BookingResponce>? bookingResponses = _mapper.Map<List<BookingResponce>>(paginatedBookings);
 
             return Result<List<BookingResponce>>.Success(bookingResponses);
         }
