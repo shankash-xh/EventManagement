@@ -25,7 +25,6 @@ public static class ServiceContainer
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration config)
     {
 
-
         // Register repositories and unit of work
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IAuthService, AuthService>();

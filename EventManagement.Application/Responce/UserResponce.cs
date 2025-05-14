@@ -9,7 +9,7 @@ namespace EventManagement.Application.Responce;
 
 public class UserResponce
 {
-    public string Token { get; set; }
-    public string RefeshToken { get; set; }
+    public string? Token { get; set; }
+    public string? RefeshToken { get; set; }
 }
 

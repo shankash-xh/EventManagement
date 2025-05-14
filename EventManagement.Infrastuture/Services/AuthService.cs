@@ -25,7 +25,7 @@ public class AuthService(IHttpContextAccessor contextAccessor, IConfiguration co
     {
         User? user = await _userManager.Users.FirstOrDefaultAsync(x=>x.Email==request.Email);
         if (user == null) { return Result<UserResponce>.Failure("Incorect UserName or Password"); }
-        bool validPassword = await _userManager.CheckPasswordAsync(user, request.Password);
+        bool validPassword = await _userManager.CheckPasswordAsync(user, request.Password!);
         if (!validPassword) { return Result<UserResponce>.Failure("Incorect UserName or Password"); }
         IList<string>? roles = await _userManager.GetRolesAsync(user);
         string? token = CreateAccessToken(user,roles);
@@ -53,7 +53,7 @@ public class AuthService(IHttpContextAccessor contextAccessor, IConfiguration co
     {
         List<Claim>? claims =
         [
-            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.Email, user.Email!),
             new Claim(ClaimTypes.NameIdentifier, user.Id),
             new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
         ];
@@ -61,7 +61,7 @@ public class AuthService(IHttpContextAccessor contextAccessor, IConfiguration co
         {
             claims.Add(new Claim(ClaimTypes.Role, role));
         }
-        SymmetricSecurityKey? key = new(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]));
+        SymmetricSecurityKey? key = new(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]!));
         SigningCredentials? creds = new (key, SecurityAlgorithms.HmacSha256);
         JwtSecurityToken? token = new (
             issuer: _configuration["JWT:Issuer"],
@@ -84,7 +84,6 @@ public class AuthService(IHttpContextAccessor contextAccessor, IConfiguration co
         if (user == null) { return false; }
         user.RefeshToken = null;
         user.RefeshTokenExpiryTime = null;
-
         await _userManager.UpdateAsync(user);
         return true;
     }

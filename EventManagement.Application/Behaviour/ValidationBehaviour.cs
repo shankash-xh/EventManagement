@@ -3,25 +3,25 @@ using MediatR;
 using FluentValidation.Results;
 namespace EventManagement.Application.Behaviour;
 
-public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators)
-: IPipelineBehavior<TRequest, TResponse>
+public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators) : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
+    private readonly IEnumerable<IValidator<TRequest>> _validators = validators;
+
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(next);
 
-        if (validators.Any())
+        if (_validators.Any())
         {
             ValidationContext<TRequest>? context = new ValidationContext<TRequest>(request);
 
             ValidationResult[]? validationResults = await Task.WhenAll(
-                validators.Select(v =>
+                _validators.Select(v =>
                     v.ValidateAsync(context, cancellationToken))).ConfigureAwait(false);
 
-           List<ValidationFailure>? failures = validationResults
+            List<ValidationFailure>? failures = [.. validationResults
                 .Where(r => r.Errors.Count > 0)
-                .SelectMany(r => r.Errors)
-                .ToList();
+                .SelectMany(r => r.Errors)];
 
             if (failures.Count > 0)
                 throw new FluentValidation.ValidationException(failures);

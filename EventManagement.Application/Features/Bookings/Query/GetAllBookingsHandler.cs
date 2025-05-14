@@ -34,7 +34,7 @@ public class GetAllBookingsHandler : IRequestHandler<GetAllBookingsRequest, Resu
             {
                 if (filterOn.Equals("UserId", StringComparison.OrdinalIgnoreCase))
                 {
-                    bookings = bookings.Where(x => x.UserId.ToString().Equals(filterQuery));
+                    bookings = bookings.Where(x => x.UserId!.ToString().Equals(filterQuery));
                 }
                 if (filterOn.Equals("EventId", StringComparison.OrdinalIgnoreCase))
                 {
