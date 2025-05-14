@@ -4,7 +4,7 @@ using MediatR;
 
 namespace EventManagement.Application.Request.Event;
 
-public class AddEventRequest : IRequest<Result<EventReposnce>>
+public class AddEventRequest : IRequest<Result<string>>
 {
     public string Name { get; set; }
     public string OrganizerId { get; set; }

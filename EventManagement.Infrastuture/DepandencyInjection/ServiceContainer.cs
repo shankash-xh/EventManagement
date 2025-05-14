@@ -20,7 +20,7 @@ using System.Text;
 
 namespace EventManagement.Infrastuture.DepandencyInjection;
 
-public static class ServiceContainer
+public static class ServiceContainer        
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration config)
     {
@@ -94,10 +94,8 @@ public static class ServiceContainer
             o.Password.RequiredUniqueChars = 1;
             o.Password.RequireUppercase = true;
         });
-
         return services;
     }
-
 
     public static IApplicationBuilder UseInfrastructurePolicies(this IApplicationBuilder app)
     {

@@ -18,9 +18,4 @@
     <ProjectReference Include="..\EventManagement.Shared\EventManagement.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Events\Command\" />
-    <Folder Include="Features\Events\Query\" />
-  </ItemGroup>
-
 </Project>

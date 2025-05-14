@@ -5,6 +5,7 @@ using EventManagement.Domain.Entity;
 using EventManagement.Shared.GlobalResponce;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -22,7 +23,7 @@ public class AuthService(IHttpContextAccessor contextAccessor, IConfiguration co
 
     public async Task<Result<UserResponce>> LoginAsync(LoginUserRequest request)
     {
-        User? user = await _userManager.FindByEmailAsync(request.Email);
+        User? user = await _userManager.Users.FirstOrDefaultAsync(x=>x.Email==request.Email);
         if (user == null) { return Result<UserResponce>.Failure("Incorect UserName or Password"); }
         bool validPassword = await _userManager.CheckPasswordAsync(user, request.Password);
         if (!validPassword) { return Result<UserResponce>.Failure("Incorect UserName or Password"); }
