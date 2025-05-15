@@ -8,15 +8,11 @@ using MediatR;
 
 namespace EventManagement.Application.Features.Events.Query;
 
-public class GetEventByIdHandler : IRequestHandler<GetEventByIdRequest, Result<EventReposnce>>
+public class GetEventByIdHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<GetEventByIdRequest, Result<EventReposnce>>
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
-    public GetEventByIdHandler(IUnitOfWork unitOfWork,IMapper mapper)
-    {
-        _unitOfWork = unitOfWork;
-        _mapper = mapper;
-    }
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IMapper _mapper = mapper;
+
     public async Task<Result<EventReposnce>> Handle(GetEventByIdRequest request, CancellationToken cancellationToken)
     {
         Event? eventEntity = await _unitOfWork.Events.GetByIdAsync(request.Id);

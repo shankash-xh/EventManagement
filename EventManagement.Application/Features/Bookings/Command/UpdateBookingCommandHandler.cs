@@ -8,15 +8,10 @@ using MediatR;
 
 namespace EventManagement.Application.Features.Bookings.Command;
 
-public class UpdateBookingCommandHandler : IRequestHandler<UpdateBookingRequest, Result<BookingResponce>>
+public class UpdateBookingCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<UpdateBookingRequest, Result<BookingResponce>>
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
-    public UpdateBookingCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
-    {
-        _unitOfWork = unitOfWork;
-        _mapper = mapper;
-    }
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<Result<BookingResponce>> Handle(UpdateBookingRequest bookingRequest, CancellationToken cancellationToken)
     {

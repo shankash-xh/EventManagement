@@ -1,5 +1,4 @@
-﻿using EventManagement.Application.Responce;
-using EventManagement.Shared.GlobalResponce;
+﻿using EventManagement.Shared.GlobalResponce;
 using MediatR;
 
 namespace EventManagement.Application.Request.Event;

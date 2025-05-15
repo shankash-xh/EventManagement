@@ -13,7 +13,7 @@ public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRe
 
         if (_validators.Any())
         {
-            ValidationContext<TRequest>? context = new ValidationContext<TRequest>(request);
+            ValidationContext<TRequest>? context = new(request);
 
             ValidationResult[]? validationResults = await Task.WhenAll(
                 _validators.Select(v =>

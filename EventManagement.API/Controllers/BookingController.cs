@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using EventManagement.Application.Interface;
-using EventManagement.Application.Request.Booking;
+﻿using EventManagement.Application.Request.Booking;
 using EventManagement.Application.Responce;
 using EventManagement.Shared.GlobalResponce;
 using Microsoft.AspNetCore.Authorization;
@@ -10,10 +8,9 @@ namespace EventManagement.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BookingController(IUnitOfWork unitOfWork, IMapper mapper) : BaseController
+    public class BookingController : BaseController
     {
-        private readonly IUnitOfWork _unitOfWork = unitOfWork;
-        private readonly IMapper _mapper = mapper;
+
 
         [HttpGet("get-all-bookings")]
         [Authorize(Roles = "Organizers,User")]

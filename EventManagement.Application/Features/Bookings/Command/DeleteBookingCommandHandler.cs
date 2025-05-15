@@ -5,15 +5,11 @@ using EventManagement.Domain.Entity;
 using MediatR;
 
 namespace EventManagement.Application.Features.Bookings.Command;
-public class DeleteBookingCommandHandler : IRequestHandler<DeleteBookingRequest, bool>
+public class DeleteBookingCommandHandler(IMapper mapper, IUnitOfWork unitOfWork) : IRequestHandler<DeleteBookingRequest, bool>
 {
-    private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
-    public DeleteBookingCommandHandler(IMapper mapper, IUnitOfWork unitOfWork)
-    {
-        _mapper = mapper;
-        _unitOfWork = unitOfWork;
-    }
+    private readonly IMapper _mapper = mapper;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+
     public async Task<bool> Handle(DeleteBookingRequest request, CancellationToken cancellationToken)
     {
         Booking booking = _mapper.Map<Booking>(request);

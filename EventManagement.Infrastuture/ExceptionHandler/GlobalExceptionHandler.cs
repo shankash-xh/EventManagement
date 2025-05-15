@@ -26,7 +26,7 @@ public class GlobalExceptionHandler : IMiddleware
         Result<string> result = Result<string>.Failure(exception.Message);
         switch (exception)
         {
-            case BadRequestException badRequestException:
+            case BadRequestException:
                 statuscode = HttpStatusCode.BadRequest;
                 result.Error = exception.Message;
                 break;
@@ -34,7 +34,7 @@ public class GlobalExceptionHandler : IMiddleware
                 statuscode = HttpStatusCode.BadRequest;
                 result.Error = string.Join(", ", validationException.Errors);
                 break;
-            case NotFoundException notFoundException:
+            case NotFoundException:
                 statuscode = HttpStatusCode.NotFound;
                 result.Error = exception.Message;
                 break;

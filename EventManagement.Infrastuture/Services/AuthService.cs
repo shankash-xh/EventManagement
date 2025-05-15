@@ -23,12 +23,12 @@ public class AuthService(IHttpContextAccessor contextAccessor, IConfiguration co
 
     public async Task<Result<UserResponce>> LoginAsync(LoginUserRequest request)
     {
-        User? user = await _userManager.Users.FirstOrDefaultAsync(x=>x.Email==request.Email);
+        User? user = await _userManager.Users.FirstOrDefaultAsync(x => x.Email == request.Email);
         if (user == null) { return Result<UserResponce>.Failure("Incorect UserName or Password"); }
         bool validPassword = await _userManager.CheckPasswordAsync(user, request.Password!);
         if (!validPassword) { return Result<UserResponce>.Failure("Incorect UserName or Password"); }
-        IList<string>? roles = await _userManager.GetRolesAsync(user);
-        string? token = CreateAccessToken(user,roles);
+        IList<string> roles = await _userManager.GetRolesAsync(user);
+        string token = CreateAccessToken(user, roles);
         string refreshToken = CreateRefreshToken();
         user.RefeshToken = refreshToken;
         user.RefeshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
@@ -40,14 +40,12 @@ public class AuthService(IHttpContextAccessor contextAccessor, IConfiguration co
         };
         return Result<UserResponce>.Success(userResponce);
     }
-    private string CreateRefreshToken()
+    private static string CreateRefreshToken()
     {
         byte[]? randomNumber = new byte[32];
-        using (RandomNumberGenerator? rng = RandomNumberGenerator.Create())
-        {
+        using RandomNumberGenerator? rng = RandomNumberGenerator.Create();
             rng.GetBytes(randomNumber);
             return Convert.ToBase64String(randomNumber);
-        }
     }
     private string CreateAccessToken(User user, IList<string> userRoles)
     {
@@ -62,8 +60,8 @@ public class AuthService(IHttpContextAccessor contextAccessor, IConfiguration co
             claims.Add(new Claim(ClaimTypes.Role, role));
         }
         SymmetricSecurityKey? key = new(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]!));
-        SigningCredentials? creds = new (key, SecurityAlgorithms.HmacSha256);
-        JwtSecurityToken? token = new (
+        SigningCredentials? creds = new(key, SecurityAlgorithms.HmacSha256);
+        JwtSecurityToken? token = new(
             issuer: _configuration["JWT:Issuer"],
             audience: _configuration["JWT:Audience"],
             claims: claims,
@@ -139,5 +137,4 @@ public class AuthService(IHttpContextAccessor contextAccessor, IConfiguration co
             return null;
         }
     }
-
 }

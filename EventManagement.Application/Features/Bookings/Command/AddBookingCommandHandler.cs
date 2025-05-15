@@ -13,15 +13,11 @@ using System.Threading.Tasks;
 
 namespace EventManagement.Application.Features.Bookings.Command;
 
-public class AddBookingCommandHandler : IRequestHandler<AddBookingRequest, Result<BookingResponce>>
+public class AddBookingCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<AddBookingRequest, Result<BookingResponce>>
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
-    public AddBookingCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
-    {
-        _unitOfWork = unitOfWork;
-        _mapper = mapper;
-    }
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IMapper _mapper = mapper;
+
     public async Task<Result<BookingResponce>> Handle(AddBookingRequest booking, CancellationToken cancellationToken)
     {
         if (booking == null)

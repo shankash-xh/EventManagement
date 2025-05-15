@@ -93,6 +93,9 @@ public static class ServiceContainer
             o.Password.RequiredUniqueChars = 1;
             o.Password.RequireUppercase = true;
         });
+
+        //services.Configure<EmailSettings>(config.GetSection("EmailSettings"));
+
         return services;
     }
 
