@@ -67,7 +67,7 @@ public static class ServiceContainer
 
         services.AddValidatorsFromAssemblyContaining<AddBookingValidation>();
         services.AddValidatorsFromAssemblyContaining<AddEventValidation>();
-        //services.AddValidatorsFromAssemblyContaining<LoginUserRequestValidation>();
+        services.AddValidatorsFromAssemblyContaining<UserRequestValidation>();
         services.AddValidatorsFromAssemblyContaining<UpdateBookingValidation>();
         services.AddValidatorsFromAssemblyContaining<UpdateEventValidation>();
 

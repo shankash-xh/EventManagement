@@ -18,7 +18,7 @@ public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRe
                 _validators.Select(v =>
                     v.ValidateAsync(context, cancellationToken))).ConfigureAwait(false);
 
-            List<ValidationFailure>? failures = [.. validationResults
+            List<ValidationFailure>? failures = [..validationResults
                 .Where(r => r.Errors.Count > 0)
                 .SelectMany(r => r.Errors)];
 
@@ -26,6 +26,6 @@ public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRe
                 throw new FluentValidation.ValidationException(failures);
         }
 
-        return await next().ConfigureAwait(false);
+        return await next(cancellationToken).ConfigureAwait(false);
     }
 }
