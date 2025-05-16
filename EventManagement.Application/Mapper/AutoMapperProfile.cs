@@ -11,9 +11,11 @@ public class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
         CreateMap<User, UserResponce>().ReverseMap();
-        CreateMap<Event,EventReposnce>().ReverseMap();
+        CreateMap<Event, EventReposnce>().ReverseMap();
         CreateMap<Booking, BookingResponce>().ReverseMap();
         CreateMap<Booking, AddBookingRequest>().ReverseMap();
         CreateMap<AddEventRequest, Event>().ReverseMap();
+        CreateMap<UpdateBookingRequest, Booking>().ReverseMap();
+        CreateMap<UpdateEventRequest, Event>().ReverseMap();
     }
 }

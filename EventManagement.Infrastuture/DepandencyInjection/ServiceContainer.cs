@@ -1,6 +1,7 @@
 ﻿using EventManagement.Application.Behaviour;
 using EventManagement.Application.Interface;
 using EventManagement.Application.Mapper;
+using EventManagement.Application.Model;
 using EventManagement.Application.Validation;
 using EventManagement.Domain.Entity;
 using EventManagement.Infrastuture.DataBase;
@@ -11,11 +12,13 @@ using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using System.Text;
 
 namespace EventManagement.Infrastuture.DepandencyInjection;
@@ -85,6 +88,13 @@ public static class ServiceContainer
 
         services.AddHttpContextAccessor();
 
+
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Information()
+            .WriteTo.Debug()
+            .WriteTo.Console()
+            .CreateLogger();
+
         services.Configure<IdentityOptions>(o =>
         {
             o.Password.RequireDigit = true;
@@ -94,6 +104,9 @@ public static class ServiceContainer
             o.Password.RequireUppercase = true;
         });
 
+        services.Configure<EmailSettings>(config.GetSection("EmailSettings"));
+        services.AddTransient<IEmailService, EmailService>();
+
         //services.Configure<EmailSettings>(config.GetSection("EmailSettings"));
 
         return services;
@@ -102,6 +115,7 @@ public static class ServiceContainer
     public static IApplicationBuilder UseInfrastructurePolicies(this IApplicationBuilder app)
     {
         app.UseMiddleware<GlobalExceptionHandler>();
+        app.UseCors("AllowAllOrigins");
         return app;
     }
 }

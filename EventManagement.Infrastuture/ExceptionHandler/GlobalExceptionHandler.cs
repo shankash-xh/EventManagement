@@ -1,6 +1,7 @@
-﻿using EventManagement.Shared.GlobalResponce;
+﻿using EventManagement.Application.Exceptions;
+using EventManagement.Infrastuture.Logger;
+using EventManagement.Shared.GlobalResponce;
 using Microsoft.AspNetCore.Http;
-using EventManagement.Application.Exceptions;
 using System.Net;
 using System.Text.Json;
 namespace EventManagement.Infrastuture.ExceptionHandler;
@@ -15,6 +16,7 @@ public class GlobalExceptionHandler : IMiddleware
         }
         catch (Exception ex)
         {
+            LogException.LogExceptions(ex);
             await HandleExceptionAsync(context, ex);
         }
     }

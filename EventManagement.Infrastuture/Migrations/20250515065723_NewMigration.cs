@@ -3,12 +3,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
 namespace EventManagement.Infrastuture.Migrations
 {
     /// <inheritdoc />
-    public partial class First : Migration
+    public partial class NewMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -184,7 +183,7 @@ namespace EventManagement.Infrastuture.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     EventId = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false)
@@ -208,7 +207,7 @@ namespace EventManagement.Infrastuture.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                columns: ["Id", "ConcurrencyStamp", "Name", "NormalizedName"],
                 values: new object[,]
                 {
                     { "7406ced6-8b5d-4f64-9319-d2ed8a9cfbf3", "7406ced6-8b5d-4f64-9319-d2ed8a9cfbf3", "Organizers", "ORGANIZERS" },
@@ -217,16 +216,16 @@ namespace EventManagement.Infrastuture.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefeshToken", "RefeshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: ["Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "RefeshToken", "RefeshTokenExpiryTime", "SecurityStamp", "TwoFactorEnabled", "UserName"],
                 values: new object[,]
                 {
-                    { "2ab08aff-4616-40db-8439-3e39478b20d5", 0, "a37a5922-de02-4068-9379-d9579b1e9932", "user@yopmail.com", true, false, null, "USER@GMAIL.COM", "USER", "AQAAAAIAAYagAAAAEHk+x7ilbJDOUpVf+dn5VkET7iWSF+6YbfDAvUJTEAgnzggQYl3aaTKRCgZ7MpO66Q==", null, false, null, null, "d8e17823-5592-4dff-a21a-64f7fde529ff", false, "User" },
-                    { "d664434f-5aff-4a91-b51a-38e1214c3f14", 0, "a771043c-4720-4027-acb8-6159ebcad5ee", "Organizers@gmail.com", true, false, null, "ADMIN@YOPMAIL.COM", "ORGANIZERS", "AQAAAAIAAYagAAAAEPyE8z7GJmZn5ZhwbNQrpgHpI2BJNO55QVsh4jyvMh/rtiMP7vROVcI9VDPtP5Sd6w==", null, false, null, null, "4de0ecaf-5663-402f-ac98-91def1f3e3e9", false, "Organizers" }
+                    { "2ab08aff-4616-40db-8439-3e39478b20d5", 0, "ea34a714-59b9-43a8-a275-2c60ba0ced7c", "user@yopmail.com", true, false, null, "USER@GMAIL.COM", "USER", "AQAAAAIAAYagAAAAEJq3YZdZfOrV7T8ZZ2WJG4nebat7HuprZs6C9KBRz4e4T+JW8GesJelwkOz8NIk6hQ==", null, false, null, null, "738cd93d-b152-4ca7-97e8-3f3b17af30d8", false, "User" },
+                    { "d664434f-5aff-4a91-b51a-38e1214c3f14", 0, "7c8b0d9d-0739-4861-98a1-bfd9e7313367", "Organizers@gmail.com", true, false, null, "ADMIN@YOPMAIL.COM", "ORGANIZERS", "AQAAAAIAAYagAAAAENWKpZ/mHch/mSSNgODaB8SWeSW0njK0JUw2PWk9os4ZR3ldykYY6veEbBnJ/XxP1A==", null, false, null, null, "c23c5c16-5181-4a02-9633-01f0829663ea", false, "Organizers" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
-                columns: new[] { "RoleId", "UserId" },
+                columns: ["RoleId", "UserId"],
                 values: new object[,]
                 {
                     { "c27c7cb2-29c0-4eaf-9507-f34baf66f299", "2ab08aff-4616-40db-8439-3e39478b20d5" },

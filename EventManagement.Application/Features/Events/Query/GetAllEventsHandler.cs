@@ -8,15 +8,10 @@ using MediatR;
 
 namespace EventManagement.Application.Features.Events.Query;
 
-public class GetAllEventsHandler : IRequestHandler<GetAllEventsRequest, Result<List<EventReposnce>>>
+public class GetAllEventsHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<GetAllEventsRequest, Result<List<EventReposnce>>>
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
-    public GetAllEventsHandler(IUnitOfWork unitOfWork,IMapper mapper)
-    {
-        _unitOfWork = unitOfWork;
-        _mapper = mapper;
-    }
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IMapper _mapper = mapper;
     public async Task<Result<List<EventReposnce>>> Handle(GetAllEventsRequest eventRequest, CancellationToken cancellationToken)
     {
         IEnumerable<Event>? events = await _unitOfWork.Events.GetAllAsync();

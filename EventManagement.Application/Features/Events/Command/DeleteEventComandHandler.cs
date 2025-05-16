@@ -5,13 +5,10 @@ using EventManagement.Shared.GlobalResponce;
 using MediatR;
 
 namespace EventManagement.Application.Features.Events.Command;
-public class DeleteEventComandHandler : IRequestHandler<DeleteEventRequest, Result<string>>
+public class DeleteEventComandHandler(IUnitOfWork unitOfWork) : IRequestHandler<DeleteEventRequest, Result<string>>
 {
-    private readonly IUnitOfWork _unitOfWork;
-    public DeleteEventComandHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+
     public async Task<Result<string>> Handle(DeleteEventRequest request, CancellationToken cancellationToken)
     {
         Event? eventEntity = await _unitOfWork.Events.GetByIdAsync(request.Id);

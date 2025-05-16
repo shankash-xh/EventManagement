@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventManagement.Infrastuture.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250513073138_First")]
-    partial class First
+    [Migration("20250515065723_NewMigration")]
+    partial class NewMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,7 +43,6 @@ namespace EventManagement.Infrastuture.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -164,15 +163,15 @@ namespace EventManagement.Infrastuture.Migrations
                         {
                             Id = "d664434f-5aff-4a91-b51a-38e1214c3f14",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a771043c-4720-4027-acb8-6159ebcad5ee",
+                            ConcurrencyStamp = "7c8b0d9d-0739-4861-98a1-bfd9e7313367",
                             Email = "Organizers@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@YOPMAIL.COM",
                             NormalizedUserName = "ORGANIZERS",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPyE8z7GJmZn5ZhwbNQrpgHpI2BJNO55QVsh4jyvMh/rtiMP7vROVcI9VDPtP5Sd6w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENWKpZ/mHch/mSSNgODaB8SWeSW0njK0JUw2PWk9os4ZR3ldykYY6veEbBnJ/XxP1A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4de0ecaf-5663-402f-ac98-91def1f3e3e9",
+                            SecurityStamp = "c23c5c16-5181-4a02-9633-01f0829663ea",
                             TwoFactorEnabled = false,
                             UserName = "Organizers"
                         },
@@ -180,15 +179,15 @@ namespace EventManagement.Infrastuture.Migrations
                         {
                             Id = "2ab08aff-4616-40db-8439-3e39478b20d5",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a37a5922-de02-4068-9379-d9579b1e9932",
+                            ConcurrencyStamp = "ea34a714-59b9-43a8-a275-2c60ba0ced7c",
                             Email = "user@yopmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@GMAIL.COM",
                             NormalizedUserName = "USER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHk+x7ilbJDOUpVf+dn5VkET7iWSF+6YbfDAvUJTEAgnzggQYl3aaTKRCgZ7MpO66Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJq3YZdZfOrV7T8ZZ2WJG4nebat7HuprZs6C9KBRz4e4T+JW8GesJelwkOz8NIk6hQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d8e17823-5592-4dff-a21a-64f7fde529ff",
+                            SecurityStamp = "738cd93d-b152-4ca7-97e8-3f3b17af30d8",
                             TwoFactorEnabled = false,
                             UserName = "User"
                         });
@@ -366,8 +365,7 @@ namespace EventManagement.Infrastuture.Migrations
                     b.HasOne("EventManagement.Domain.Entity.User", "User")
                         .WithMany("Bookings")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Event");
 

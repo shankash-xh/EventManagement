@@ -19,15 +19,10 @@ public class UpdateBookingCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             return Result<BookingResponce>.Failure("Invalid Booking Data");
         }
-        Booking? existingBooking = await _unitOfWork.Bookings.GetByIdAsync(bookingRequest.Id);
-        if (existingBooking == null)
-        {
-            return Result<BookingResponce>.Failure("Booking Not Found");
-        }
         Booking booking = _mapper.Map<Booking>(bookingRequest);
         await _unitOfWork.Bookings.UpdateAsync(booking);
         await _unitOfWork.SaveAsync();
-        BookingResponce? bookingResponse = _mapper.Map<BookingResponce>(existingBooking);
+        BookingResponce? bookingResponse = _mapper.Map<BookingResponce>(booking);
         return Result<BookingResponce>.Success(bookingResponse);
     }
 }

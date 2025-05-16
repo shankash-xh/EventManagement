@@ -8,15 +8,10 @@ using MediatR;
 
 namespace EventManagement.Application.Features.Events.Command;
 
-public class AddEventCommandHandler : IRequestHandler<AddEventRequest, Result<string>>
+public class AddEventCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) : IRequestHandler<AddEventRequest, Result<string>>
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
-    public AddEventCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
-    {
-        _unitOfWork = unitOfWork;
-        _mapper = mapper;
-    }
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<Result<string>> Handle(AddEventRequest eventRequest, CancellationToken cancellationToken)
     {

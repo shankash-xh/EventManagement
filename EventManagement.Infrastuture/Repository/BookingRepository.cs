@@ -6,4 +6,5 @@ namespace EventManagement.Infrastuture.Repository;
 
 public class BookingRepository(AppDbContext context) : GenricRepositrory<Booking>(context), IBookingRepository
 {
+
 }

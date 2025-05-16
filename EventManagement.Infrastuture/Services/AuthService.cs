@@ -1,7 +1,9 @@
 ﻿using EventManagement.Application.Interface;
+using EventManagement.Application.Model;
 using EventManagement.Application.Request.User;
 using EventManagement.Application.Responce;
 using EventManagement.Domain.Entity;
+using EventManagement.Shared.Common;
 using EventManagement.Shared.GlobalResponce;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -15,11 +17,12 @@ using System.Text;
 
 namespace EventManagement.Infrastuture.Services;
 
-public class AuthService(IHttpContextAccessor contextAccessor, IConfiguration configuration, UserManager<User> userManager) : IAuthService
+public class AuthService(IHttpContextAccessor contextAccessor, IConfiguration configuration, UserManager<User> userManager, IEmailService emailSender) : IAuthService
 {
     private readonly IHttpContextAccessor? _contextAccessor = contextAccessor;
     private readonly IConfiguration _configuration = configuration;
     private readonly UserManager<User> _userManager = userManager;
+    private readonly IEmailService _emailSender = emailSender;
 
     public async Task<Result<UserResponce>> LoginAsync(LoginUserRequest request)
     {
@@ -38,14 +41,25 @@ public class AuthService(IHttpContextAccessor contextAccessor, IConfiguration co
             Token = token,
             RefeshToken = refreshToken,
         };
+        Email email = new()
+        {
+            To = user.Email!,
+            Subject = "Login Notification",
+            Body = EmailMessage.TextMessage()
+        };
+        bool emailSent = await _emailSender.SendEmailAsync(email);
+        if (!emailSent)
+        {
+            return Result<UserResponce>.Failure("Failed to send email notification.");
+        }
         return Result<UserResponce>.Success(userResponce);
     }
     private static string CreateRefreshToken()
     {
         byte[]? randomNumber = new byte[32];
         using RandomNumberGenerator? rng = RandomNumberGenerator.Create();
-            rng.GetBytes(randomNumber);
-            return Convert.ToBase64String(randomNumber);
+        rng.GetBytes(randomNumber);
+        return Convert.ToBase64String(randomNumber);
     }
     private string CreateAccessToken(User user, IList<string> userRoles)
     {
